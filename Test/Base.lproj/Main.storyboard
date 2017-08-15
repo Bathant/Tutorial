@@ -32,25 +32,25 @@
                                         <rect key="frame" x="0.0" y="64" width="375" height="30"/>
                                         <state key="normal" title="Search"/>
                                     </button>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hRm-2N-GhE">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="92" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hRm-2N-GhE">
                                         <rect key="frame" x="0.0" y="114" width="375" height="533"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cells" id="tbj-gR-1hD" customClass="CustomCell" customModule="Test" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cells" rowHeight="92" id="tbj-gR-1hD" customClass="CustomCell" customModule="Test" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="28" width="375" height="92"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tbj-gR-1hD" id="Flf-je-UOb">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="91.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="5vT-Fu-PRE">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="81.5"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Uf-x1-Ocb">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="175" height="43.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="175" height="81.5"/>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g14-Nz-POm">
-                                                                    <rect key="frame" x="200" y="0.0" width="175" height="43.5"/>
+                                                                    <rect key="frame" x="200" y="0.0" width="175" height="81.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -59,10 +59,10 @@
                                                         </stackView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="bottom" secondItem="5vT-Fu-PRE" secondAttribute="bottom" id="CBi-62-DTB"/>
-                                                        <constraint firstItem="5vT-Fu-PRE" firstAttribute="leading" secondItem="Flf-je-UOb" secondAttribute="leading" id="c2T-n1-VnX"/>
-                                                        <constraint firstItem="5vT-Fu-PRE" firstAttribute="top" secondItem="Flf-je-UOb" secondAttribute="top" id="lUo-hG-S7U"/>
-                                                        <constraint firstAttribute="trailing" secondItem="5vT-Fu-PRE" secondAttribute="trailing" id="lfq-iG-gRA"/>
+                                                        <constraint firstItem="5vT-Fu-PRE" firstAttribute="top" secondItem="Flf-je-UOb" secondAttribute="top" id="BTQ-vV-YBz"/>
+                                                        <constraint firstItem="5vT-Fu-PRE" firstAttribute="leading" secondItem="Flf-je-UOb" secondAttribute="leading" id="Gfg-Jo-qpV"/>
+                                                        <constraint firstAttribute="trailing" secondItem="5vT-Fu-PRE" secondAttribute="trailing" id="mIT-w6-8bN"/>
+                                                        <constraint firstAttribute="bottom" secondItem="5vT-Fu-PRE" secondAttribute="bottom" constant="10" id="vD4-X1-Ta1"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
