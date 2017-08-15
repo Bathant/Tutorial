@@ -13,10 +13,11 @@ class ViewController: UIViewController ,UITableViewDataSource,UIWebViewDelegate{
     
     @IBOutlet weak var viewTable: UITableView!
     let fh : FlickrHelper = FlickrHelper()
-    
+    var PhotosArray : NSMutableArray = NSMutableArray()
     override func viewDidLoad() {
         super.viewDidLoad()
-        fh.getimages(search: "world")
+        PhotosArray =   fh.getimages(search: "cats")
+        print(PhotosArray.count)
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -32,12 +33,14 @@ class ViewController: UIViewController ,UITableViewDataSource,UIWebViewDelegate{
         return  1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5   
+        return PhotosArray.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cells", for: indexPath) as! CustomCell
-        cell.LabelCell.text = "What !! "
-        cell.ImageCell.image = UIImage(named: "images.jpeg")
+      let  FlickObj = PhotosArray[indexPath.row] as! FlickrPhoto
+        cell.LabelCell.text = FlickObj.Title
+        
+        cell.ImageCell.image = FlickObj.ImageFlick
         
         
        
