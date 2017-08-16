@@ -9,15 +9,48 @@
 import UIKit
 
 class FlickrHelper : NSObject {
+    
+    
+    func getUrl(text : String) -> URLComponents
+    {
+        var component = URLComponents()
+        component.host="api.flickr.com"
+        component.path="/services/rest"
+        component.scheme = "https"
+        component.queryItems=[URLQueryItem]()
+        
+        
+        let q1 = URLQueryItem(name : "method",value : "flickr.photos.search")
+        let q2 = URLQueryItem(name : "api_key",value : "f6738329744e8a24a79ae57f6de986c6")
+        let q3 = URLQueryItem(name : "text",value : text)
+        let q4 = URLQueryItem(name : "extras",value : "url_m")
+        let q5 = URLQueryItem(name : "per_page",value : "20")
+        let q6 = URLQueryItem(name : "format",value : "json")
+        let q7 = URLQueryItem(name : "nojsoncallback",value : "1")
+        
+        
+            component.queryItems?.append(q1)
+            component.queryItems?.append(q2)
+            component.queryItems?.append(q3)
+            component.queryItems?.append(q4)
+            component.queryItems?.append(q5)
+            component.queryItems?.append(q6)
+            component.queryItems?.append(q7)
+        print("Component !!!!!!!!!!!!!!!! \(component.url!)")
+        return component
+        
+    }
+    
+    
+    
      func getimages(search : String) -> NSMutableArray
     {
-         let flickerphotos : NSMutableArray = NSMutableArray()
-        let APIkey = "f6738329744e8a24a79ae57f6de986c6"
-      let  ApiRequestURL =  "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(APIkey)&text=\(search)&extras=url_m&per_page=20&format=json&nojsoncallback=1"
-        let url : URL = URL(string : ApiRequestURL)!
-        let StringJSONResult: String
+        
+        let flickerphotos : NSMutableArray = NSMutableArray()
         do{
-             StringJSONResult = try String.init(contentsOf: url, encoding: String.Encoding.utf8)
+            
+            let component = getUrl(text : search)
+           let  StringJSONResult = try String.init(contentsOf: component.url!, encoding: String.Encoding.utf8)
             print(StringJSONResult)
             //convert StringJSONResult into data to get  real json
             let data = StringJSONResult.data(using: String.Encoding.utf8, allowLossyConversion: false)

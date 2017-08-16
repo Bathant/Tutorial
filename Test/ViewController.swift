@@ -16,7 +16,7 @@ class ViewController: UIViewController ,UITableViewDataSource,UIWebViewDelegate{
     var PhotosArray : NSMutableArray = NSMutableArray()
     override func viewDidLoad() {
         super.viewDidLoad()
-        PhotosArray =   fh.getimages(search: "cats")
+        PhotosArray =   fh.getimages(search: "Lions in a forest ")
         print(PhotosArray.count)
         
         // Do any additional setup after loading the view, typically from a nib.
