@@ -11,7 +11,7 @@ import UIKit
 class FlickrHelper : NSObject {
     
     
-    func getUrl(text : String) -> URLComponents
+    func getUrl(txt_ownr : String,check : Bool ) -> URLComponents
     {
         var component = URLComponents()
         component.host="api.flickr.com"
@@ -22,7 +22,13 @@ class FlickrHelper : NSObject {
         
         let q1 = URLQueryItem(name : "method",value : "flickr.photos.search")
         let q2 = URLQueryItem(name : "api_key",value : "f6738329744e8a24a79ae57f6de986c6")
-        let q3 = URLQueryItem(name : "text",value : text)
+        let q3 : URLQueryItem
+        if check==true{
+         q3 = URLQueryItem(name : "text",value : txt_ownr)
+        }else
+        {
+            q3 = URLQueryItem(name : "user_id",value : txt_ownr)
+        }
         let q4 = URLQueryItem(name : "extras",value : "url_m")
         let q5 = URLQueryItem(name : "per_page",value : "20")
         let q6 = URLQueryItem(name : "format",value : "json")
@@ -43,13 +49,13 @@ class FlickrHelper : NSObject {
     
     
     
-     func getimages(search : String) -> NSMutableArray
+    func getimages(txt_ownr : String , check : Bool ) -> NSMutableArray
     {
         
         let flickerphotos : NSMutableArray = NSMutableArray()
         do{
             
-            let component = getUrl(text : search)
+            let component = getUrl(txt_ownr: txt_ownr, check: check)
            let  StringJSONResult = try String.init(contentsOf: component.url!, encoding: String.Encoding.utf8)
             print(StringJSONResult)
             //convert StringJSONResult into data to get  real json

@@ -8,15 +8,18 @@
 
 import UIKit
 
-class ViewController: UIViewController ,UITableViewDataSource,UIWebViewDelegate{
+class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
 
     
+    @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var viewTable: UITableView!
     let fh : FlickrHelper = FlickrHelper()
     var PhotosArray : NSMutableArray = NSMutableArray()
     override func viewDidLoad() {
         super.viewDidLoad()
-        PhotosArray =   fh.getimages(search: "Lions in a forest ")
+        tableview.delegate = self 
+        tableview.dataSource = self
+        PhotosArray =   fh.getimages(txt_ownr: "Lions in a forest ",check: true)
         print(PhotosArray.count)
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -46,6 +49,19 @@ class ViewController: UIViewController ,UITableViewDataSource,UIWebViewDelegate{
        
         return cell
     }
-
-}
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        let obj = PhotosArray[indexPath.row] as! FlickrPhoto
+        let own = obj.Owner
+        
+        performSegue(withIdentifier: "segID", sender: own)
+        
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dest = segue.destination as! UserTableViewController
+        dest.owner = sender as! String
+    }
+    }
 
