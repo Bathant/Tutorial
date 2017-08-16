@@ -8,24 +8,35 @@
 
 import UIKit
 
-class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
+class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate , UISearchBarDelegate{
 
     
+    
+    @IBOutlet weak var SearchStr: UISearchBar!
+    
     @IBOutlet weak var tableview: UITableView!
-    @IBOutlet weak var viewTable: UITableView!
+  
     let fh : FlickrHelper = FlickrHelper()
     var PhotosArray : NSMutableArray = NSMutableArray()
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.delegate = self 
         tableview.dataSource = self
-        PhotosArray =   fh.getimages(txt_ownr: "Lions in a forest ",check: true)
-        print(PhotosArray.count)
+        SearchStr.delegate = self
         
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-
+    @IBAction func SearchBTN(_ sender: UIButton) {
+        guard  let str = SearchStr.text else { print("please type anything");  return}
+        print(str)
+        PhotosArray =   fh.getimages(txt_ownr:str ,check: true)
+        print(PhotosArray.count)
+        DispatchQueue.main.async {
+            self.tableview.reloadData()
+        }
+        
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

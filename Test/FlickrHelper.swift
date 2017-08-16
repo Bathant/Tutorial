@@ -30,7 +30,7 @@ class FlickrHelper : NSObject {
             q3 = URLQueryItem(name : "user_id",value : txt_ownr)
         }
         let q4 = URLQueryItem(name : "extras",value : "url_m")
-        let q5 = URLQueryItem(name : "per_page",value : "20")
+        let q5 = URLQueryItem(name : "per_page",value : "5")
         let q6 = URLQueryItem(name : "format",value : "json")
         let q7 = URLQueryItem(name : "nojsoncallback",value : "1")
         
@@ -76,7 +76,7 @@ class FlickrHelper : NSObject {
                     let FP : FlickrPhoto = FlickrPhoto()
                     FP.Title = photo["title"] as! String
                     FP.Owner = photo["owner"] as! String
-                    let str = photo["url_m"] as! String
+                    guard   let str = photo["url_m"] as? String else{print("there's no url :( "); continue}
                     let Imageurl = URL(string : str)!
                     do{
                     let imagedata = try Data.init(contentsOf: Imageurl)
