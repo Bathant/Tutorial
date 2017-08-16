@@ -18,11 +18,13 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
   
     let fh : FlickrHelper = FlickrHelper()
     var PhotosArray : NSMutableArray = NSMutableArray()
+    var cachevar : NSCache<AnyObject, AnyObject>?
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.delegate = self 
         tableview.dataSource = self
         SearchStr.delegate = self
+        self.cachevar = NSCache()
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -30,7 +32,17 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
     @IBAction func SearchBTN(_ sender: UIButton) {
         guard  let str = SearchStr.text else { print("please type anything");  return}
         print(str)
+        if self.cachevar?.object(forKey: str as AnyObject) != nil{
+            print("*************It was cached before***********")
+            PhotosArray = (self.cachevar?.object(forKey: str as AnyObject))! as! NSMutableArray
+        }
+        else{
+        
+        
         PhotosArray =   fh.getimages(txt_ownr:str ,check: true)
+             print("It wasn't cached before and we download it from scratch !!!!!! ")
+            self.cachevar?.setObject(PhotosArray, forKey: str as AnyObject)
+        }
         print(PhotosArray.count)
         DispatchQueue.main.async {
             self.tableview.reloadData()
