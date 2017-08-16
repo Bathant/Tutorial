@@ -35,18 +35,25 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         if self.cachevar?.object(forKey: str as AnyObject) != nil{
             print("*************It was cached before***********")
             PhotosArray = (self.cachevar?.object(forKey: str as AnyObject))! as! NSMutableArray
+            DispatchQueue.main.async {
+                self.tableview.reloadData()
+            }
         }
         else{
-        
-        
-        PhotosArray =   fh.getimages(txt_ownr:str ,check: true)
-             print("It wasn't cached before and we download it from scratch !!!!!! ")
-            self.cachevar?.setObject(PhotosArray, forKey: str as AnyObject)
+            DispatchQueue.global(qos: .userInteractive).async {
+                self.PhotosArray =   self.fh.getimages(txt_ownr:str ,check: true)
+                print("It wasn't cached before and we download it from scratch !!!!!! ")
+                self.cachevar?.setObject(self.PhotosArray, forKey: str as AnyObject)
+                 print(self.PhotosArray.count)
+                DispatchQueue.main.async {
+                    self.tableview.reloadData()
+                }
+            }
+           
+       
         }
-        print(PhotosArray.count)
-        DispatchQueue.main.async {
-            self.tableview.reloadData()
-        }
+       
+      
         
     }
     

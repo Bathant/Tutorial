@@ -9,14 +9,23 @@
 import UIKit
 
 class UserTableViewController: UITableViewController {
+    
+    
+    @IBOutlet var viewtable: UITableView!
+    
     var owner : String?
     var PhotosArray : NSMutableArray = NSMutableArray()
     let fh : FlickrHelper = FlickrHelper()
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        PhotosArray = fh.getimages(txt_ownr: owner!,check: false)
-           }
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.PhotosArray = self.fh.getimages(txt_ownr: self.owner!,check: false)
+            DispatchQueue.main.async {
+                self.viewtable.reloadData()
+            }
+
+        }
+                   }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
