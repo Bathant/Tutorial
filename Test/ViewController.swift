@@ -50,12 +50,14 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         indicator.backgroundColor = UIColor.white
         PhotosArray = []
         tableview.reloadData()
-        
+        page = 1
         guard  let str = SearchStr.text else { print("please type anything");  return}
         print(str)
+        let pageskey = "\(str)pages"
         if self.cachevar?.object(forKey: str as AnyObject) != nil{
             print("*************It was cached before***********")
             PhotosArray = (self.cachevar?.object(forKey: str as AnyObject))! as! NSMutableArray
+           
             DispatchQueue.main.async {
                 self.tableview.reloadData()
                 self.indicator.stopAnimating()
@@ -66,7 +68,9 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
             DispatchQueue.global(qos: .userInteractive).async {
                 self.PhotosArray =   self.fh.getimages(txt_ownr:str ,check: true,pages: 1)
                 print("It wasn't cached before and we download it from scratch !!!!!! ")
+                
                 self.cachevar?.setObject(self.PhotosArray, forKey: str as AnyObject)
+                self.cachevar?.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
                  print(self.PhotosArray.count)
                 DispatchQueue.main.async {
                     self.tableview.reloadData()
@@ -137,14 +141,23 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
                    
                         
                         isDataLoading = true
-                 
-                       page+=1
-                    self.PhotosArray.addObjects(from: self.fh.getimages(txt_ownr:self.SearchStr.text! ,check: true,pages: page) as! [Any])
+                    if  let str = self.SearchStr.text{
+                    let pageskey = "\(str)pages"
+                  if let  p = (self.cachevar?.object(forKey: pageskey as AnyObject)) as? Int
+                  {
+                    print("pages was cached before that ")
+                    page = p + 1
+                    self.cachevar?.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
+                }
+                  else{
+                    page += 1
+                    }
+                    self.PhotosArray.addObjects(from: self.fh.getimages(txt_ownr: str,check: true,pages: page) as! [Any])
                         print(self.PhotosArray.count)
-                    
+                    print("pages >>> \(page)")
                             self.tableview.reloadData()
                         
-                    
+                    }
                     
 
                     
