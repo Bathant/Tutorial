@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50931E7B1F4AE74700C5E2B3 /* ScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50931E7A1F4AE74700C5E2B3 /* ScrollDelegate.swift */; };
 		50CC818B1F43035D00B32DD1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC818A1F43035D00B32DD1 /* AppDelegate.swift */; };
 		50CC818D1F43035D00B32DD1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC818C1F43035D00B32DD1 /* ViewController.swift */; };
 		50CC81901F43035D00B32DD1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50CC818E1F43035D00B32DD1 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		50931E7A1F4AE74700C5E2B3 /* ScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollDelegate.swift; sourceTree = "<group>"; };
 		50CC81871F43035D00B32DD1 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CC818A1F43035D00B32DD1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50CC818C1F43035D00B32DD1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				50CC819C1F431FD400B32DD1 /* CustomCell.swift */,
 				50CC81A61F43A0EF00B32DD1 /* FlickrPhoto.swift */,
 				50CC81A81F43D80100B32DD1 /* UserTableViewController.swift */,
+				50931E7A1F4AE74700C5E2B3 /* ScrollDelegate.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 				50CC818D1F43035D00B32DD1 /* ViewController.swift in Sources */,
 				50CC819D1F431FD400B32DD1 /* CustomCell.swift in Sources */,
 				50CC81A71F43A0EF00B32DD1 /* FlickrPhoto.swift in Sources */,
+				50931E7B1F4AE74700C5E2B3 /* ScrollDelegate.swift in Sources */,
 				50CC81A91F43D80100B32DD1 /* UserTableViewController.swift in Sources */,
 				50CC818B1F43035D00B32DD1 /* AppDelegate.swift in Sources */,
 			);

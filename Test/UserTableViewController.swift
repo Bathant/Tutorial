@@ -19,7 +19,7 @@ class UserTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         DispatchQueue.global(qos: .userInteractive).async {
-            self.PhotosArray = self.fh.getimages(txt_ownr: self.owner!,check: false)
+            self.PhotosArray = self.fh.getimages(txt_ownr: self.owner!,check: false,pages: 1)
             DispatchQueue.main.async {
                 self.viewtable.reloadData()
             }

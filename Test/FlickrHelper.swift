@@ -11,7 +11,7 @@ import UIKit
 class FlickrHelper : NSObject {
     
     
-    func getUrl(txt_ownr : String,check : Bool ) -> URLComponents
+    func getUrl(txt_ownr : String,check : Bool ,page : Int) -> URLComponents
     {
         var component = URLComponents()
         component.host="api.flickr.com"
@@ -33,7 +33,8 @@ class FlickrHelper : NSObject {
         let q5 = URLQueryItem(name : "per_page",value : "5")
         let q6 = URLQueryItem(name : "format",value : "json")
         let q7 = URLQueryItem(name : "nojsoncallback",value : "1")
-        
+        let q8 = URLQueryItem(name : "page",value : String(page))
+
         
             component.queryItems?.append(q1)
             component.queryItems?.append(q2)
@@ -42,6 +43,7 @@ class FlickrHelper : NSObject {
             component.queryItems?.append(q5)
             component.queryItems?.append(q6)
             component.queryItems?.append(q7)
+        component.queryItems?.append(q8)
         print("Component !!!!!!!!!!!!!!!! \(component.url!)")
         return component
         
@@ -49,13 +51,13 @@ class FlickrHelper : NSObject {
     
     
     
-    func getimages(txt_ownr : String , check : Bool ) -> NSMutableArray
+    func getimages(txt_ownr : String , check : Bool ,pages : Int) -> NSMutableArray
     {
         
         let flickerphotos : NSMutableArray = NSMutableArray()
         do{
             
-            let component = getUrl(txt_ownr: txt_ownr, check: check)
+            let component = getUrl(txt_ownr: txt_ownr, check: check, page: pages)
            let  StringJSONResult = try String.init(contentsOf: component.url!, encoding: String.Encoding.utf8)
             print(StringJSONResult)
             //convert StringJSONResult into data to get  real json
@@ -67,6 +69,12 @@ class FlickrHelper : NSObject {
                 parsedData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : AnyObject]
                 print(parsedData)
                 let dic = parsedData["photos"]
+                let max_pages = dic?["pages"] as! Int
+                print(max_pages)
+                if(max_pages < pages){
+                    print("we can't produce more than that !!")
+                }
+                else {
                 let photoarray = dic?["photo"] as! [[String : AnyObject]]
                 print(photoarray)
                
@@ -92,7 +100,8 @@ class FlickrHelper : NSObject {
                         print("Couldn't get Image From URL ")
                     }
                     
-        
+                    }
+                  
                 }
             }catch _
             {

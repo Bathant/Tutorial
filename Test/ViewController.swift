@@ -8,11 +8,18 @@
 
 import UIKit
 
-class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate , UISearchBarDelegate{
+class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate , UISearchBarDelegate,UIScrollViewDelegate{
 
     
     
     @IBOutlet weak var SearchStr: UISearchBar!
+    //for pagination 
+    var isDataLoading = false
+    var page :Int = 1
+    //end
+    
+    
+    
     
     @IBOutlet weak var tableview: UITableView!
     var indicator : UIActivityIndicatorView = UIActivityIndicatorView()
@@ -23,6 +30,7 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         super.viewDidLoad()
         tableview.delegate = self 
         tableview.dataSource = self
+        
         tableview.tableFooterView = UIView(frame : .zero)
         SearchStr.delegate = self
         self.cachevar = NSCache()
@@ -56,7 +64,7 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         }
         else{
             DispatchQueue.global(qos: .userInteractive).async {
-                self.PhotosArray =   self.fh.getimages(txt_ownr:str ,check: true)
+                self.PhotosArray =   self.fh.getimages(txt_ownr:str ,check: true,pages: 1)
                 print("It wasn't cached before and we download it from scratch !!!!!! ")
                 self.cachevar?.setObject(self.PhotosArray, forKey: str as AnyObject)
                  print(self.PhotosArray.count)
@@ -110,5 +118,43 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         let dest = segue.destination as! UserTableViewController
         dest.owner = sender as! String
     }
+   
+    
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        isDataLoading = false
+        print("scrollViewWillBeginDragging")
+    }
+ 
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        print("scrollViewDidEndDragging")
+            
+            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height)
+            {
+                if !isDataLoading{
+                    
+                   
+                        
+                        isDataLoading = true
+                 
+                       page+=1
+                    self.PhotosArray.addObjects(from: self.fh.getimages(txt_ownr:self.SearchStr.text! ,check: true,pages: page) as! [Any])
+                        print(self.PhotosArray.count)
+                    
+                            self.tableview.reloadData()
+                        
+                    
+                    
+
+                    
+                
+            }
+        }
+    }
+    
+    
+    
+    
     }
 
