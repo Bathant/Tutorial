@@ -8,56 +8,55 @@
 
 import UIKit
 
-class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate , UISearchBarDelegate,UIScrollViewDelegate{
+class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate , UISearchBarDelegate,UIScrollViewDelegate , UITabBarDelegate {
 
     
     
-    @IBOutlet weak var SearchStr: UISearchBar!
+    
     //for pagination 
     var isDataLoading = false
     var page :Int = 1
     //end
     
-    
+    var searchstring : String!
+    var cachevar : NSCache<AnyObject, AnyObject>!
     
     
     @IBOutlet weak var tableview: UITableView!
     var indicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let fh : FlickrHelper = FlickrHelper()
     var PhotosArray : NSMutableArray = NSMutableArray()
-    var cachevar : NSCache<AnyObject, AnyObject>?
+    var appdelegate = UIApplication.shared.delegate as! AppDelegate
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("<<<<<<<<<<<<<<<<<<<<<< view did load called >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         tableview.delegate = self 
         tableview.dataSource = self
-        
+        //this makes the cells have no lines when the array is empty
         tableview.tableFooterView = UIView(frame : .zero)
-        SearchStr.delegate = self
-        self.cachevar = NSCache()
+        
+        
         
         // Do any additional setup after loading the view, typically from a nib.
     }
-    func activityIndicator() {
-        
-        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-        indicator.center = self.view.center
-        self.view.addSubview(indicator)
-    }
-    @IBAction func SearchBTN(_ sender: UIButton) {
-        
+    
+    override func viewWillAppear(_ animated: Bool) {
         activityIndicator()
         indicator.startAnimating()
         indicator.backgroundColor = UIColor.white
         PhotosArray = []
         tableview.reloadData()
         page = 1
-        guard  let str = SearchStr.text else { print("please type anything");  return}
+        cachevar = appdelegate.cachevar
+        searchstring = appdelegate.searchString
+        guard  let str = searchstring else { print("please type anything");  return}
         print(str)
         let pageskey = "\(str)pages"
-        if self.cachevar?.object(forKey: str as AnyObject) != nil{
+        if self.cachevar.object(forKey: str as AnyObject) != nil{
             print("*************It was cached before***********")
-            PhotosArray = (self.cachevar?.object(forKey: str as AnyObject))! as! NSMutableArray
-           
+            PhotosArray = (self.cachevar.object(forKey: str as AnyObject))! as! NSMutableArray
+            
             DispatchQueue.main.async {
                 self.tableview.reloadData()
                 self.indicator.stopAnimating()
@@ -69,22 +68,27 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
                 self.PhotosArray =   self.fh.getimages(txt_ownr:str ,check: true,pages: 1)
                 print("It wasn't cached before and we download it from scratch !!!!!! ")
                 
-                self.cachevar?.setObject(self.PhotosArray, forKey: str as AnyObject)
-                self.cachevar?.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
-                 print(self.PhotosArray.count)
+                self.cachevar.setObject(self.PhotosArray, forKey: str as AnyObject)
+                self.cachevar.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
+                print(self.PhotosArray.count)
                 DispatchQueue.main.async {
                     self.tableview.reloadData()
                     self.indicator.stopAnimating()
                     self.indicator.hidesWhenStopped = true
                 }
             }
-           
-       
+            
+            
         }
-       
-      
-        
+
     }
+    func activityIndicator() {
+        
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        indicator.center = self.view.center
+        self.view.addSubview(indicator)
+    }
+  
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -141,13 +145,13 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
                    
                         
                         isDataLoading = true
-                    if  let str = self.SearchStr.text{
+                    if  let str = self.searchstring{
                     let pageskey = "\(str)pages"
-                  if let  p = (self.cachevar?.object(forKey: pageskey as AnyObject)) as? Int
+                  if let  p = (self.cachevar.object(forKey: pageskey as AnyObject)) as? Int
                   {
                     print("pages was cached before that ")
                     page = p + 1
-                    self.cachevar?.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
+                    self.cachevar.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
                 }
                   else{
                     page += 1
@@ -167,7 +171,6 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
     }
     
     
-    
-    
-    }
 
+
+}

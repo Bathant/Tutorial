@@ -11,4 +11,5 @@ import UIKit
 class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageview: UIImageView!
+    @IBOutlet weak var labeltxt: UILabel!
 }
