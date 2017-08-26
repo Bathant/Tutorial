@@ -13,7 +13,7 @@ class FlickrPhoto : NSObject
     var ImageFlick : UIImage!
     var Title : String!
     var Owner : String!
-    
+    var Height : Int!
     override init()
     {
     }
