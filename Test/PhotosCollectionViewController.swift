@@ -166,7 +166,15 @@ class PhotosCollectionViewController: UICollectionViewController {
         }
     }
 
-
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let flickobj = PhotosArray[indexPath.row] as! FlickrPhoto
+        let owner = flickobj.Owner
+        performSegue(withIdentifier: "collectionseqID", sender: owner)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dest = segue.destination as! UserTableViewController
+        dest.owner = sender as! String
+    }
 }
     extension PhotosCollectionViewController : FlickrLayoutDelegate
     {

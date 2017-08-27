@@ -84,7 +84,16 @@ class FlickrHelper : NSObject {
                     let FP : FlickrPhoto = FlickrPhoto()
                     FP.Title = photo["title"] as! String
                     FP.Owner = photo["owner"] as! String
-                    FP.Height = Int(photo["height_m"] as! String)
+                   
+                    
+                    if let height = photo["height_m"] as? String{
+                        FP.Height = Int(height)
+                    }
+                    else{
+                        FP.Height = 100
+                    }
+                    
+                    
                     guard   let str = photo["url_m"] as? String else{print("there's no url :( "); continue}
                     let Imageurl = URL(string : str)!
                     do{

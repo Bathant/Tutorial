@@ -127,50 +127,46 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         dest.owner = sender as! String
     }
    
-    
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        isDataLoading = false
-        print("scrollViewWillBeginDragging")
-    }
- 
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
-        print("scrollViewDidEndDragging")
-            
-            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height)
-            {
-                if !isDataLoading{
-                    
-                   
-                        
-                        isDataLoading = true
-                    if  let str = self.searchstring{
-                    let pageskey = "\(str)pages"
-                  if let  p = (self.cachevar.object(forKey: pageskey as AnyObject)) as? Int
-                  {
-                    print("pages was cached before that ")
-                    page = p + 1
-                    self.cachevar.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
-                }
-                  else{
-                    page += 1
-                    }
-                    self.PhotosArray.addObjects(from: self.fh.getimages(txt_ownr: str,check: true,pages: page) as! [Any])
-                        print(self.PhotosArray.count)
-                    print("pages >>> \(page)")
-                            self.tableview.reloadData()
-                        
-                    }
-                    
 
-                    
-                
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastSectionIndex = tableView.numberOfSections - 1
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
+            // print("this is the last cell")
+            let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            spinner.startAnimating()
+            spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+            
+            self.tableview.tableFooterView = spinner
+            self.tableview.tableFooterView?.isHidden = false
+            let str = self.searchstring
+            let pageskey = "\(str)pages"
+            if let  p = (self.cachevar.object(forKey: pageskey as AnyObject)) as? Int
+            {
+                print("pages was cached before that ")
+                page = p + 1
+                self.cachevar.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
             }
+            else{
+                page += 1
+            }
+
+            
+            DispatchQueue.global(qos: .userInteractive).async {
+                self.PhotosArray.addObjects(from: self.fh.getimages(txt_ownr: str!,check: true,pages: self.page) as! [Any])
+                print(self.PhotosArray.count)
+                DispatchQueue.main.async {
+                    self.tableview.reloadData()
+                    spinner.stopAnimating()
+                    spinner.hidesWhenStopped = true
+                }
+            }
+            
+            
+            
+            
         }
     }
-    
-    
 
 
 }
