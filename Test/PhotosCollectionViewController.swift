@@ -22,7 +22,7 @@ class PhotosCollectionViewController: UICollectionViewController {
     var cachevar : NSCache<AnyObject, AnyObject>!
     var indicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let fh : FlickrHelper = FlickrHelper()
-    var PhotosArray : NSMutableArray = NSMutableArray()
+    var PhotosArr : NSMutableArray = NSMutableArray()
     var appdelegate = UIApplication.shared.delegate as! AppDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ class PhotosCollectionViewController: UICollectionViewController {
         layout.delegate = self as! FlickrLayoutDelegate
         layout.numberOfColumns = 2
     }
-
+    
     func activityIndicator() {
         
         indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
@@ -43,7 +43,7 @@ class PhotosCollectionViewController: UICollectionViewController {
         activityIndicator()
         indicator.startAnimating()
         indicator.backgroundColor = UIColor.white
-        PhotosArray = []
+        PhotosArr = []
         collectionview.reloadData()
         page = 1
         searchtext = appdelegate.searchString
@@ -53,7 +53,7 @@ class PhotosCollectionViewController: UICollectionViewController {
         let pageskey = "\(str)pages"
         if self.cachevar.object(forKey: str as AnyObject) != nil{
             print("*************It was cached before***********")
-            PhotosArray = (self.cachevar.object(forKey: str as AnyObject))! as! NSMutableArray
+            PhotosArr = (self.cachevar.object(forKey: str as AnyObject))! as! NSMutableArray
             
             DispatchQueue.main.async {
                 self.collectionview.reloadData()
@@ -63,12 +63,12 @@ class PhotosCollectionViewController: UICollectionViewController {
         }
         else{
             DispatchQueue.global(qos: .userInteractive).async {
-                self.PhotosArray =   self.fh.getimages(txt_ownr:str ,check: true,pages: 1)
+                self.PhotosArr  = self.fh.getimages(txt_ownr:str ,check: true,pages: 1)
                 print("It wasn't cached before and we download it from scratch !!!!!! ")
                 
-                self.cachevar.setObject(self.PhotosArray, forKey: str as AnyObject)
+                self.cachevar.setObject(self.PhotosArr, forKey: str as AnyObject)
                 self.cachevar.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
-                print(self.PhotosArray.count)
+                print(self.PhotosArr.count)
                 DispatchQueue.main.async {
                     self.collectionview.reloadData()
                     self.indicator.stopAnimating()
@@ -79,95 +79,111 @@ class PhotosCollectionViewController: UICollectionViewController {
             
         }
         
-
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-   
-
+    
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using [segue destinationViewController].
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
     // MARK: UICollectionViewDataSource
-
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
-
+    
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return PhotosArray.count
+        let numofcells = PhotosArr.count + 1
+        print(numofcells)
+        return numofcells
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
-        let flickobj = PhotosArray[indexPath.row] as! FlickrPhoto
-        cell.imageview.image = flickobj.ImageFlick
-        
-        let myattribute = [NSFontAttributeName : UIFont(name: "Chalkduster", size: 18.0 )!,NSForegroundColorAttributeName  : UIColor.white]
-        let str = NSMutableAttributedString(string :flickobj.Title,attributes : myattribute )
-        cell.labeltxt.attributedText = str
-        cell.backgroundColor = UIColor.black
-        
-        // Configure the cell
-    
-        return cell
-    }
-    
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.isDataLoading = false
-        print("scrollViewWillBeginDragging")
-    }
-    
-    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
-        print("scrollViewDidEndDragging")
-        
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height)
-        {
-            if !isDataLoading{
-                
-                
-                
-                isDataLoading = true
-                if  let str = self.searchtext{
-                    let pageskey = "\(str)pages"
-                    if let  p = (self.cachevar.object(forKey: pageskey as AnyObject)) as? Int
-                    {
-                        print("pages was cached before that ")
-                        page = p + 1
-                        self.cachevar.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
-                    }
-                    else{
-                        page += 1
-                    }
-                    self.PhotosArray.addObjects(from: self.fh.getimages(txt_ownr: str,check: true,pages: page) as! [Any])
-                    print(self.PhotosArray.count)
-                    print("pages >>> \(page)")
-                    self.collectionview.reloadData()
-                    
-                }
-                
-                
-                
-                
-            }
+        print("entered here ??? ")
+        if indexPath.item <= PhotosArr.count - 1  {
+            print(indexPath.item)
+            let  cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
+            
+            
+            
+            let flickobj = PhotosArr[indexPath.row] as! FlickrPhoto
+            
+            cell.imageview.image = flickobj.ImageFlick
+            
+            let myattribute = [NSFontAttributeName : UIFont(name: "Chalkduster", size: 18.0 )!,NSForegroundColorAttributeName  : UIColor.white]
+            let str = NSMutableAttributedString(string :flickobj.Title,attributes : myattribute )
+            cell.labeltxt.attributedText = str
+            cell.backgroundColor = UIColor.black
+            return cell
         }
+        else{
+            print ("entered else ")
+            let  cell2 = collectionView.dequeueReusableCell(withReuseIdentifier: "loadercell", for: indexPath) as! LoadingCollectionViewCell
+            cell2.awakeFromNib()
+            return cell2
+        }
+        
+        
     }
-
+    
+    
+    
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if indexPath.item + 1 == PhotosArr.count
+        {
+            let str = self.searchtext
+            let pageskey = "\(str!)pages"
+            
+            
+            print ("number of page is before caching \(page)")
+            DispatchQueue.global(qos: .userInteractive).async {
+                let p = (self.cachevar.object(forKey: pageskey as AnyObject)) as! Int
+                print("pages was cached before that ")
+                self.page = p + 1
+                self.cachevar.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
+                print ("number of page is after caching \(self.page)")
+                self.PhotosArr.addObjects(from: self.fh.getimages(txt_ownr: str!,check: true,pages: self.page) as! [Any])
+                print(self.PhotosArr.count)
+                DispatchQueue.main.async {
+                    self.collectionview.reloadData()
+                }
+            }
+            
+            
+            
+            
+        }
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let flickobj = PhotosArray[indexPath.row] as! FlickrPhoto
+        let flickobj = PhotosArr[indexPath.row] as! FlickrPhoto
         let owner = flickobj.Owner
         performSegue(withIdentifier: "collectionseqID", sender: owner)
     }
@@ -176,32 +192,35 @@ class PhotosCollectionViewController: UICollectionViewController {
         dest.owner = sender as! String
     }
 }
-    extension PhotosCollectionViewController : FlickrLayoutDelegate
+
+extension PhotosCollectionViewController : FlickrLayoutDelegate
+{
+    func collectionView(collectionView:UICollectionView, heightForPhotoAtIndexPath indexPath:NSIndexPath) -> CGFloat
     {
-        func collectionView(collectionView:UICollectionView, heightForPhotoAtIndexPath indexPath:NSIndexPath) -> CGFloat
-        {
+        var height : CGFloat! = 0
+        if indexPath.row <= PhotosArr.count - 1{
+            let flickobj = self.PhotosArr[indexPath.row] as! FlickrPhoto
+            height = CGFloat(flickobj.Height)
             
-            let flickobj = PhotosArray[indexPath.row] as! FlickrPhoto
-            
-            return   CGFloat(flickobj.Height)
+            return   height
         }
-        func collectionView(collectionView: UICollectionView,
-                            heightForAnnotationAtIndexPath indexPath: NSIndexPath, withWidth width: CGFloat) -> CGFloat {
-            let annotationPadding = CGFloat(4)
-            let annotationHeaderHeight = CGFloat(17)
-            let height = annotationPadding + annotationHeaderHeight  + annotationPadding
-            
-           
+        else{
             return height
         }
-        
-        
-        
-        
-        
-        
-        
     }
+    func collectionView(collectionView: UICollectionView,
+                        heightForAnnotationAtIndexPath indexPath: NSIndexPath, withWidth width: CGFloat) -> CGFloat {
+        
+        return 100
+    }
+    
+    
+    
+    
+    
+    
+    
+}
 
 
 

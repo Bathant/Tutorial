@@ -11,6 +11,7 @@
 		5083FC781F50D4D5000379AA /* PhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083FC771F50D4D5000379AA /* PhotosCollectionViewController.swift */; };
 		5083FC7A1F50D747000379AA /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083FC791F50D747000379AA /* CollectionViewCell.swift */; };
 		5083FC7C1F51D505000379AA /* SearchLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083FC7B1F51D505000379AA /* SearchLayout.swift */; };
+		5083FC7E1F531DF2000379AA /* LoadingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083FC7D1F531DF2000379AA /* LoadingCollectionViewCell.swift */; };
 		50931E7B1F4AE74700C5E2B3 /* ScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50931E7A1F4AE74700C5E2B3 /* ScrollDelegate.swift */; };
 		50CC818B1F43035D00B32DD1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC818A1F43035D00B32DD1 /* AppDelegate.swift */; };
 		50CC818D1F43035D00B32DD1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC818C1F43035D00B32DD1 /* ViewController.swift */; };
@@ -28,6 +29,7 @@
 		5083FC771F50D4D5000379AA /* PhotosCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewController.swift; sourceTree = "<group>"; };
 		5083FC791F50D747000379AA /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		5083FC7B1F51D505000379AA /* SearchLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchLayout.swift; sourceTree = "<group>"; };
+		5083FC7D1F531DF2000379AA /* LoadingCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCollectionViewCell.swift; sourceTree = "<group>"; };
 		50931E7A1F4AE74700C5E2B3 /* ScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollDelegate.swift; sourceTree = "<group>"; };
 		50CC81871F43035D00B32DD1 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CC818A1F43035D00B32DD1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				5083FC771F50D4D5000379AA /* PhotosCollectionViewController.swift */,
 				5083FC791F50D747000379AA /* CollectionViewCell.swift */,
 				5083FC7B1F51D505000379AA /* SearchLayout.swift */,
+				5083FC7D1F531DF2000379AA /* LoadingCollectionViewCell.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				5083FC7C1F51D505000379AA /* SearchLayout.swift in Sources */,
 				5083FC761F50B38A000379AA /* FlickrCollectionViewCell.swift in Sources */,
 				50CC81A71F43A0EF00B32DD1 /* FlickrPhoto.swift in Sources */,
+				5083FC7E1F531DF2000379AA /* LoadingCollectionViewCell.swift in Sources */,
 				50931E7B1F4AE74700C5E2B3 /* ScrollDelegate.swift in Sources */,
 				5083FC781F50D4D5000379AA /* PhotosCollectionViewController.swift in Sources */,
 				50CC81A91F43D80100B32DD1 /* UserTableViewController.swift in Sources */,

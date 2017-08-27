@@ -228,6 +228,32 @@
                                     <outlet property="labeltxt" destination="GdV-fa-nbt" id="atj-vd-EnK"/>
                                 </connections>
                             </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="loadercell" id="hAv-CX-f1K" customClass="LoadingCollectionViewCell" customModule="Test" customModuleProvider="target">
+                                <rect key="frame" x="206" y="0.0" width="169" height="197"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="169" height="197"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0gF-Ya-L7F">
+                                            <rect key="frame" x="59.5" y="73.5" width="50" height="50"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="50" id="Rd1-W1-cXO" userLabel="height = 400"/>
+                                                <constraint firstAttribute="width" constant="50" id="gfx-GD-HPC" userLabel="width = 400"/>
+                                            </constraints>
+                                            <color key="color" red="1" green="0.26185817119999999" blue="0.33648481860000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="0gF-Ya-L7F" firstAttribute="centerY" secondItem="hAv-CX-f1K" secondAttribute="centerY" id="CkE-B7-QWp"/>
+                                    <constraint firstItem="0gF-Ya-L7F" firstAttribute="centerX" secondItem="hAv-CX-f1K" secondAttribute="centerX" id="yfS-d6-B6H"/>
+                                </constraints>
+                                <size key="customSize" width="169" height="197"/>
+                                <connections>
+                                    <outlet property="spinner" destination="0gF-Ya-L7F" id="Tgg-Vt-GOu"/>
+                                </connections>
+                            </collectionViewCell>
                         </cells>
                         <connections>
                             <outlet property="dataSource" destination="e1I-Ls-GAN" id="2uc-v3-9gC"/>
@@ -363,6 +389,6 @@
         <image name="SearchBackground" width="736" height="1309"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="BVe-Hu-vGs"/>
+        <segue reference="7Xl-Xz-Cj3"/>
     </inferredMetricsTieBreakers>
 </document>

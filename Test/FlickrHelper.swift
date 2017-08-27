@@ -34,7 +34,8 @@ class FlickrHelper : NSObject {
         let q6 = URLQueryItem(name : "format",value : "json")
         let q7 = URLQueryItem(name : "nojsoncallback",value : "1")
         let q8 = URLQueryItem(name : "page",value : String(page))
-
+        let q9 = URLQueryItem(name : "safe_search",value : "1")
+        let q10 = URLQueryItem(name : "sort",value : "relevance")
         
             component.queryItems?.append(q1)
             component.queryItems?.append(q2)
@@ -44,7 +45,9 @@ class FlickrHelper : NSObject {
             component.queryItems?.append(q6)
             component.queryItems?.append(q7)
         component.queryItems?.append(q8)
-        print("Component !!!!!!!!!!!!!!!! \(component.url!)")
+        component.queryItems?.append(q9)
+        component.queryItems?.append(q10)
+    //    print("Component !!!!!!!!!!!!!!!! \(component.url!)")
         return component
         
     }
@@ -59,7 +62,7 @@ class FlickrHelper : NSObject {
             
             let component = getUrl(txt_ownr: txt_ownr, check: check, page: pages)
            let  StringJSONResult = try String.init(contentsOf: component.url!, encoding: String.Encoding.utf8)
-            print(StringJSONResult)
+           // print(StringJSONResult)
             //convert StringJSONResult into data to get  real json
             let data = StringJSONResult.data(using: String.Encoding.utf8, allowLossyConversion: false)
             
@@ -67,18 +70,18 @@ class FlickrHelper : NSObject {
             let parsedData : [String : AnyObject]!
             do{
                 parsedData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : AnyObject]
-                print(parsedData)
+               // print(parsedData)
                 let dic = parsedData["photos"]
                 let max_pages = dic?["pages"] as! Int
-                print(max_pages)
+                //print(max_pages)
                 if(max_pages < pages){
-                    print("we can't produce more than that !!")
+                  //  print("we can't produce more than that !!")
                 }
                 else {
                 let photoarray = dic?["photo"] as! [[String : AnyObject]]
-                print(photoarray)
+              //  print(photoarray)
                
-                print(photoarray.count)
+                //print(photoarray.count)
                 for photo in photoarray
                 {
                     let FP : FlickrPhoto = FlickrPhoto()
@@ -131,7 +134,7 @@ class FlickrHelper : NSObject {
         
         
         
-        print(flickerphotos.count)
+        //print(flickerphotos.count)
          return flickerphotos
     }
    

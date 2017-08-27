@@ -30,7 +30,7 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("<<<<<<<<<<<<<<<<<<<<<< view did load called >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print("<<<<<<<<<<<<<<<<<<<<<< view did load called >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> \(page)")
         tableview.delegate = self 
         tableview.dataSource = self
         //this makes the cells have no lines when the array is empty
@@ -43,6 +43,7 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         activityIndicator()
+        print("viewController view will appear \(page)")
         indicator.startAnimating()
         indicator.backgroundColor = UIColor.white
         PhotosArray = []
@@ -51,12 +52,12 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         cachevar = appdelegate.cachevar
         searchstring = appdelegate.searchString
         guard  let str = searchstring else { print("please type anything");  return}
-        print(str)
+        //print(str)
         let pageskey = "\(str)pages"
         if self.cachevar.object(forKey: str as AnyObject) != nil{
-            print("*************It was cached before***********")
+          //print("*************It was cached before***********")
             PhotosArray = (self.cachevar.object(forKey: str as AnyObject))! as! NSMutableArray
-            
+        
             DispatchQueue.main.async {
                 self.tableview.reloadData()
                 self.indicator.stopAnimating()
@@ -66,11 +67,12 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         else{
             DispatchQueue.global(qos: .userInteractive).async {
                 self.PhotosArray =   self.fh.getimages(txt_ownr:str ,check: true,pages: 1)
-                print("It wasn't cached before and we download it from scratch !!!!!! ")
+              //  print("It wasn't cached before and we download it from scratch !!!!!! ")
                 
                 self.cachevar.setObject(self.PhotosArray, forKey: str as AnyObject)
                 self.cachevar.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
-                print(self.PhotosArray.count)
+                
+               // print(self.PhotosArray.count)
                 DispatchQueue.main.async {
                     self.tableview.reloadData()
                     self.indicator.stopAnimating()
@@ -140,19 +142,16 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
             self.tableview.tableFooterView = spinner
             self.tableview.tableFooterView?.isHidden = false
             let str = self.searchstring
-            let pageskey = "\(str)pages"
-            if let  p = (self.cachevar.object(forKey: pageskey as AnyObject)) as? Int
-            {
-                print("pages was cached before that ")
-                page = p + 1
-                self.cachevar.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
-            }
-            else{
-                page += 1
-            }
-
+            let pageskey = "\(searchstring!)pages"
             
+            
+        print ("number of page is before caching \(page)")
             DispatchQueue.global(qos: .userInteractive).async {
+                let p = (self.cachevar.object(forKey: pageskey as AnyObject)) as! Int
+                print("pages was cached before that ")
+                self.page = p + 1
+                self.cachevar.setObject(self.page as! AnyObject , forKey: pageskey as AnyObject)
+                 print ("number of page is after caching \(self.page)")
                 self.PhotosArray.addObjects(from: self.fh.getimages(txt_ownr: str!,check: true,pages: self.page) as! [Any])
                 print(self.PhotosArray.count)
                 DispatchQueue.main.async {
