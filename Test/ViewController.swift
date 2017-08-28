@@ -27,7 +27,7 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
     let fh : FlickrHelper = FlickrHelper()
     var PhotosArray : NSMutableArray = NSMutableArray()
     var appdelegate = UIApplication.shared.delegate as! AppDelegate
-    
+    var finished : Bool!
     override func viewDidLoad() {
         super.viewDidLoad()
         print("<<<<<<<<<<<<<<<<<<<<<< view did load called >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> \(page)")
@@ -36,7 +36,7 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         //this makes the cells have no lines when the array is empty
         tableview.tableFooterView = UIView(frame : .zero)
         
-        
+        finished  = true
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -147,7 +147,9 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
             
             
         print ("number of page is before caching \(page)")
+            if finished {
             DispatchQueue.global(qos: .userInteractive).async {
+                self.finished = false
                 let p = (self.cachevar.object(forKey: pageskey as AnyObject)) as! Int
                 print("pages was cached before that ")
                 self.page = p + 1
@@ -159,9 +161,10 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
                     self.tableview.reloadData()
                     spinner.stopAnimating()
                     spinner.hidesWhenStopped = true
+                    self.finished = true
                 }
             }
-            
+            }
             
             
             

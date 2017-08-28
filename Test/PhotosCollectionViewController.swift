@@ -23,10 +23,11 @@ class PhotosCollectionViewController: UICollectionViewController {
     var indicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let fh : FlickrHelper = FlickrHelper()
     var PhotosArr : NSMutableArray = NSMutableArray()
+    var finished : Bool!
     var appdelegate = UIApplication.shared.delegate as! AppDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        finished = true
         let layout = collectionViewLayout as! FlickrCollectionViewCell
         layout.delegate = self as! FlickrLayoutDelegate
         layout.numberOfColumns = 2
@@ -113,9 +114,9 @@ class PhotosCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("entered here ??? ")
+       // print("entered here ??? ")
         if indexPath.item <= PhotosArr.count - 1  {
-            print(indexPath.item)
+        //    print(indexPath.item)
             let  cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
             
             
@@ -131,7 +132,7 @@ class PhotosCollectionViewController: UICollectionViewController {
             return cell
         }
         else{
-            print ("entered else ")
+          //  print ("entered else ")
             let  cell2 = collectionView.dequeueReusableCell(withReuseIdentifier: "loadercell", for: indexPath) as! LoadingCollectionViewCell
             cell2.awakeFromNib()
             return cell2
@@ -148,8 +149,10 @@ class PhotosCollectionViewController: UICollectionViewController {
         {
             let str = self.searchtext
             let pageskey = "\(str!)pages"
+           
             
-            
+            if self.finished{
+                self.finished = false
             print ("number of page is before caching \(page)")
             DispatchQueue.global(qos: .userInteractive).async {
                 let p = (self.cachevar.object(forKey: pageskey as AnyObject)) as! Int
@@ -159,9 +162,15 @@ class PhotosCollectionViewController: UICollectionViewController {
                 print ("number of page is after caching \(self.page)")
                 self.PhotosArr.addObjects(from: self.fh.getimages(txt_ownr: str!,check: true,pages: self.page) as! [Any])
                 print(self.PhotosArr.count)
+                
                 DispatchQueue.main.async {
                     self.collectionview.reloadData()
+                   self.finished = true
                 }
+            
+            }
+                
+                
             }
             
             
