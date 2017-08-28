@@ -125,8 +125,9 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let dest = segue.destination as! UserTableViewController
-        dest.owner = sender as! String
+        let nav = segue.destination as! UINavigationController
+        let des = nav.viewControllers.first! as! UserTableViewController
+        des.owner = sender as! String
     }
    
 

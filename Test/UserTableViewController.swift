@@ -11,6 +11,13 @@ import UIKit
 class UserTableViewController: UITableViewController {
     
     
+    @IBAction func backtotabbar(_ sender: UIBarButtonItem) {
+        
+        self.dismiss(animated: true, completion: nil)
+        
+        
+        
+    }
     @IBOutlet var viewtable: UITableView!
     
     var owner : String?

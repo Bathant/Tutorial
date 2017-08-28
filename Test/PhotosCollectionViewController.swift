@@ -188,7 +188,8 @@ class PhotosCollectionViewController: UICollectionViewController {
         performSegue(withIdentifier: "collectionseqID", sender: owner)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let dest = segue.destination as! UserTableViewController
+        let nav = segue.destination as! UINavigationController
+        let dest = nav.viewControllers.first! as! UserTableViewController
         dest.owner = sender as! String
     }
 }
@@ -205,7 +206,7 @@ extension PhotosCollectionViewController : FlickrLayoutDelegate
             return   height
         }
         else{
-            return height
+            return height + 100
         }
     }
     func collectionView(collectionView: UICollectionView,
